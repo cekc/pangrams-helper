@@ -94,7 +94,7 @@
 
         prompt.onfocus = prompt.oninput = function() {
             pangram = prompt.value.toUpperCase();
-            for (i = 0; i < 33; i++) {
+            for (i = 0; i < 26; i++) {
                     freqs[i] = countSubstr(pangram, ALPHABET[i]);
                     alphabetBoxes[i].style.background = freqs[i] > 0 ? 'hsl(' + Math.max(0, 200-freqs[i]*10) + ',80%,35%)' : 'lightgray'
                     alphabetBoxes[i].onmouseenter = freqHandlerFactory(ALPHABET[i], freqs[i]);
