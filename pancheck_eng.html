@@ -103,7 +103,7 @@
             }
 
 
-            if (pangram.search(/[^а-яё.,;:()!?"' \n/–—-]/i) == -1)
+            if (pangram.search(/[^a-z.,;:()!?"' \n/–—-]/i) == -1)
                 message = 'Letter count: ' + freqs.reduce(function(a, b) { return a + b; }, 0);
             else
                 message = 'You entered a forbidden symbol.'.fontcolor('red');
