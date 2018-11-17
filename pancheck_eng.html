@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/png" href="https://www.pythonanywhere.com/user/psysalamander/files/home/psysalamander/pangrams/static/%7B%7B%20url_for('static',%20filename%20=%20'favicon.png')%20%7D%7D">
+
+    <style type="text/css">
+        #prompt {
+            width: 350px;
+            height: auto;
+            resize: none;
+        }
+
+        #alphabet td {
+            margin: 5px;
+            width: auto;
+            height: auto;
+            background: lightgray;
+            border-radius: 5px;
+            text-align: center;
+
+        }
+        #alphabet span {
+            color: white;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea type="text" id="prompt" rows="5" autofocus=""></textarea>
+    <br>
+    <div id="alphabet">
+        <table>
+            <tbody><tr>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>A</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>B</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>C</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>D</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>E</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>F</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>G</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>H</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>I</span></td>
+            </tr><tr>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>J</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>K</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>L</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>M</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>N</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>O</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>P</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>Q</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>R</span></td>
+            </tr><tr>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>S</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>T</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>U</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>V</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>W</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>X</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>Y</span></td>
+                <td style="background: lightgray none repeat scroll 0% 0%;"><span>Z</span></td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    <br>
+    <span id="count"></span>
+    <br>
+    <span id="freq"></span>
+
+
+    <script>
+        ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        freqs = new Array(26);
+
+        function countSubstr(str, substr) {
+            count = 0;
+            pos = -1;
+            while ((pos = str.indexOf(substr, pos + 1)) != -1) {
+              count++;
+            }
+            return count;
+        }
+
+        prompt = document.getElementById('prompt');
+        alphabetBoxes = document.getElementsByTagName('td');
+
+        function freqHandlerFactory(letter, number) {
+            return function() {
+                document.getElementById('freq').innerHTML = 'Letter ' + letter + ' appears ' + number + ' times.'; }
+        }
+
+
+        prompt.onfocus = prompt.oninput = function() {
+            pangram = prompt.value.toUpperCase();
+            for (i = 0; i < 33; i++) {
+                    freqs[i] = countSubstr(pangram, ALPHABET[i]);
+                    alphabetBoxes[i].style.background = freqs[i] > 0 ? 'hsl(' + Math.max(0, 200-freqs[i]*10) + ',80%,35%)' : 'lightgray'
+                    alphabetBoxes[i].onmouseenter = freqHandlerFactory(ALPHABET[i], freqs[i]);
+            }
+
+
+            if (pangram.search(/[^а-яё.,;:()!?"' \n/–—-]/i) == -1)
+                message = 'Letter count: ' + freqs.reduce(function(a, b) { return a + b; }, 0);
+            else
+                message = 'You entered a forbidden symbol.'.fontcolor('red');
+
+            document.getElementById('count').innerHTML = message;
+        };
+
+
+    </script>
+
+
+</body></html>
